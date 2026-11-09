@@ -14,8 +14,7 @@ export class CreateUserService {
     //  Verify if already exist user in database
     const findUser = await prismaClient.user.findFirst({
       where: {
-        email: email,
-        cpf: cpf,
+        OR: [{ cpf }, { email }],
       },
     });
 
