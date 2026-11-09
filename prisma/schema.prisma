@@ -1,0 +1,69 @@
+// This is your Prisma schema file
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Categories {
+  electronics
+  computers
+  fashion
+  home_and_decoration
+  appliances
+  beauty
+  sports_and_leisure
+  automotive
+  food_and_beverages
+  toys_and_games
+  boks_and_stationery
+  pet_shop
+  tools_and_construction
+  health_and_wellness
+  musical_instruments
+  crafts_and_hobbies
+  others
+}
+
+enum StatusOrder {
+  pendent_paymente
+  preparing_for_shipment
+  in_transit
+  out_for_delivery
+  delivered
+}
+
+model User {
+  id String @id @default(ulid())
+}
+
+model Product {
+  id String @id @default(ulid())
+}
+
+model Comment {
+  id String @id @default(ulid())
+}
+
+model Company {
+  id String @id @default(ulid())
+}
+
+model Cupoms {
+  id String @id @default(ulid())
+}
+
+model Cart {
+  id String @id @default(ulid())
+}
+
+model Order {
+  id String @id @default(ulid())
+}
