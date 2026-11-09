@@ -3,9 +3,13 @@ import { Router, Request, Response } from "express";
 export const router = Router();
 
 import { CreateUserController } from "./controllers/users/CreateUserController";
+import { AuthUserController } from "./controllers/users/AuthUserController";
 
 //  new user
 router.post("/users", new CreateUserController().handle);
+
+//  authenticate user
+router.post("/auth", new AuthUserController().handle);
 
 //  new company
 // router.post("/companies");

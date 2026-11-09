@@ -25,22 +25,27 @@ export class CreateUserService {
 
     const passwordHashed = await hash(password, 10);
 
-    const newUser = await prismaClient.user.create({
-      data: {
-        cpf,
-        name,
-        email,
-        password: passwordHashed,
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        cpf: true,
-        created_at: true,
-      },
-    });
+    try {
+      const newUser = await prismaClient.user.create({
+        data: {
+          cpf,
+          name,
+          email,
+          password: passwordHashed,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          cpf: true,
+          created_at: true,
+        },
+      });
 
-    return newUser;
+      return newUser;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Create user error");
+    }
   }
 }
