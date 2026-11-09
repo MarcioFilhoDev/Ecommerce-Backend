@@ -4,6 +4,8 @@ export const router = Router();
 
 import { CreateUserController } from "./controllers/users/CreateUserController";
 import { AuthUserController } from "./controllers/users/AuthUserController";
+import { CreateCompanyController } from "./controllers/companies/CreateCompanyController";
+import { AuthCompanyController } from "./controllers/companies/AuthCompanyController";
 
 //  new user
 router.post("/users", new CreateUserController().handle);
@@ -12,7 +14,10 @@ router.post("/users", new CreateUserController().handle);
 router.post("/auth", new AuthUserController().handle);
 
 //  new company
-// router.post("/companies");
+router.post("/companies", new CreateCompanyController().handle);
+
+//  authenticate company
+router.post("/companies/auth", new AuthCompanyController().handle);
 
 // //  list comments
 // router.get("/comments");
