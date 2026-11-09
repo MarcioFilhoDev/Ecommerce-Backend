@@ -33,37 +33,217 @@ enum Categories {
 }
 
 enum StatusOrder {
-  pendent_paymente
+  pending_payment
   preparing_for_shipment
   in_transit
   out_for_delivery
   delivered
 }
 
+enum PaymentTypes {
+  credit_card
+  ticket
+  pix
+}
+
 model User {
-  id String @id @default(ulid())
-}
+  id String @id @default(uuid())
 
-model Product {
-  id String @id @default(ulid())
-}
+  name     String
+  email    String @unique
+  password String
+  cpf      String @unique
 
-model Comment {
-  id String @id @default(ulid())
+  phone_number String @default("")
+  postal_code  String @default("")
+  address      String @default("")
+
+  cart     Cart?
+  comments Comment[]
+  answers  Answer[]
+  orders   Order[]
+
+  created_at DateTime @default(now())
+
+  @@map("users")
 }
 
 model Company {
-  id String @id @default(ulid())
+  id String @id @default(uuid())
+
+  name     String
+  cnpj     String @unique
+  email    String @unique
+  password String
+
+  postal_code String @default("")
+  address     String @default("")
+
+  products Product[]
+  orders   Order[]
+
+  created_at DateTime @default(now())
+
+  @@map("companies")
 }
 
-model Cupoms {
-  id String @id @default(ulid())
+model Product {
+  id String @id @default(uuid())
+
+  code           String     @unique
+  title          String
+  description    String
+  category       Categories
+  images         String[]
+  quantities     Int
+  original_price Int // em centavos
+  current_price  Int
+  has_discount   Boolean    @default(false)
+  status         Boolean    @default(true)
+
+  total_stars       Int @default(0)
+  total_users_apply Int @default(0)
+
+  company_id String
+  company    Company @relation(fields: [company_id], references: [id], onDelete: Restrict)
+
+  comments    Comment[]
+  cart_items  CartItem[]
+  order_items OrderItem[]
+
+  created_at DateTime @default(now())
+
+  @@index([company_id])
+  @@map("products")
 }
 
 model Cart {
-  id String @id @default(ulid())
+  id String @id @default(uuid())
+
+  user_id String @unique
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  items CartItem[]
+
+  coupon_id String?
+  coupon    Coupon? @relation(fields: [coupon_id], references: [id])
+
+  discount    Int @default(0)
+  total_order Int @default(0)
+
+  created_at DateTime @default(now())
+  expires_at DateTime
+
+  @@index([expires_at])
+}
+
+model CartItem {
+  id String @id @default(uuid())
+
+  cart_id String @unique
+  cart    Cart   @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Restrict)
+
+  quantity Int @default(1)
+
+  @@index([product_id])
 }
 
 model Order {
-  id String @id @default(ulid())
+  id String @id @default(uuid())
+
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Restrict)
+
+  company_id String
+  company    Company @relation(fields: [company_id], references: [id])
+
+  items OrderItem[]
+
+  payment_type PaymentTypes
+  status       StatusOrder  @default(pending_payment)
+
+  coupon_code String?
+  discount    Int     @default(0)
+  total       Int
+
+  payment_at   DateTime?
+  delivered_at DateTime?
+
+  created_at DateTime @default(now())
+
+  @@index([user_id])
+  @@map("orders")
+}
+
+model OrderItem {
+  id String @id @default(uuid())
+
+  order_id String
+  order    Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Restrict)
+
+  quantity   Int @default(1)
+  unit_price Int
+
+  @@index([order_id])
+  @@index([product_id])
+}
+
+model Coupon {
+  id String @id @default(uuid())
+
+  code String @unique
+
+  percentage   Int
+  available_at DateTime @default(now())
+  expires_at   DateTime
+  status       Boolean  @default(true)
+
+  carts Cart[]
+
+  @@map("coupons")
+}
+
+model Comment {
+  id String @id @default(uuid())
+
+  description String
+  likes       Int    @default(0)
+
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  answers Answer[]
+
+  created_at DateTime @default(now())
+
+  @@index([product_id])
+  @@index([user_id])
+  @@map("comments")
+}
+
+model Answer {
+  id String @id @default(uuid())
+
+  answer String
+  likes  Int    @default(0)
+
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  comment_id String
+  comment    Comment @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+
+  @@index([comment_id])
+  @@map("answers")
 }
