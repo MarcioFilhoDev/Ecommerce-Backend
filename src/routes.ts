@@ -11,7 +11,7 @@ import { AuthCompanyController } from "./controllers/companies/AuthCompanyContro
 router.post("/users", new CreateUserController().handle);
 
 //  authenticate user
-router.post("/auth", new AuthUserController().handle);
+router.post("/users/auth", new AuthUserController().handle);
 
 //  new company
 router.post("/companies", new CreateCompanyController().handle);
