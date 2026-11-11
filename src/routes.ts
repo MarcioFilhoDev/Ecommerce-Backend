@@ -41,7 +41,7 @@ router.delete("/users", isAuthenticated, new DeleteUserController().handle);
 
 // //  new product
 // //  authenticated + company account
-// router.post("/products");
+router.post("/products", isAuthenticated);
 
 // //  change product
 // //  product_id + company account
