@@ -6,6 +6,8 @@ import { CreateUserController } from "./controllers/users/CreateUserController";
 import { AuthUserController } from "./controllers/users/AuthUserController";
 import { CreateCompanyController } from "./controllers/companies/CreateCompanyController";
 import { AuthCompanyController } from "./controllers/companies/AuthCompanyController";
+import { DeleteUserController } from "./controllers/users/DeleteUserController";
+import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 //  new user
 router.post("/users", new CreateUserController().handle);
@@ -27,7 +29,7 @@ router.post("/companies/auth", new AuthCompanyController().handle);
 
 // //  delete user account
 // //  authenticated + confirm password
-// router.delete("/users");
+router.delete("/users", isAuthenticated, new DeleteUserController().handle);
 
 // //  new comment
 // //  authenticated
