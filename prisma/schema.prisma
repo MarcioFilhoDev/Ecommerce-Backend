@@ -135,6 +135,7 @@ model Cart {
   expires_at DateTime
 
   @@index([expires_at])
+  @@map("carts")
 }
 
 model CartItem {
@@ -149,6 +150,7 @@ model CartItem {
   quantity Int @default(1)
 
   @@index([product_id])
+  @@map("cart_item")
 }
 
 model Order {
@@ -192,6 +194,7 @@ model OrderItem {
 
   @@index([order_id])
   @@index([product_id])
+  @@map("order_item")
 }
 
 model Coupon {
