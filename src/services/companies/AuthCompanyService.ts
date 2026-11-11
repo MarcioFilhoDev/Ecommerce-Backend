@@ -15,7 +15,7 @@ export class AuthCompanyService {
     const identifierMethod = cnpj ? { cnpj } : email ? { email } : undefined;
 
     if (!identifierMethod) {
-      return "Email/CNPJ and password are necessary";
+      throw new Error("Email/CNPJ and password are necessary");
     }
 
     const findCompany = await prismaClient.company.findUnique({
@@ -23,13 +23,13 @@ export class AuthCompanyService {
     });
 
     if (!findCompany) {
-      return "Email/CNPJ and password are necessary";
+      throw new Error("Email/CNPJ and password are necessary");
     }
 
     const passwordMatch = await compare(password, findCompany.password);
 
     if (!passwordMatch) {
-      return "Email/CNPJ and password are necessary";
+      throw new Error("Email/CNPJ and password are necessary");
     }
 
     const token = sign(
