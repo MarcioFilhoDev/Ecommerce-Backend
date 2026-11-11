@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "postinstall": "prisma skills sync || exit 0",
-    "build": "tsc",
+    "build": "npx prisma generate && tsc",
     "start": "node dist/server.js"
   },
   "keywords": [],
