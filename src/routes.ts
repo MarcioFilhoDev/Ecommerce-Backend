@@ -9,6 +9,8 @@ import { AuthCompanyController } from "./controllers/companies/AuthCompanyContro
 import { DeleteUserController } from "./controllers/users/DeleteUserController";
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { CreateProductController } from "./controllers/products/CreateProductController";
+import { ValidateSchema } from "./middlewares/validateSchema";
+import { ProductSchema } from "./schemas/productSchema";
 
 //  new user
 router.post("/users", new CreateUserController().handle);
@@ -42,7 +44,12 @@ router.delete("/users", isAuthenticated, new DeleteUserController().handle);
 
 // //  new product
 // //  authenticated + company account
-router.post("/products", isAuthenticated, new CreateProductController().handle);
+router.post(
+  "/products",
+  isAuthenticated,
+  ValidateSchema(ProductSchema),
+  new CreateProductController().handle,
+);
 
 // //  change product
 // //  product_id + company account
