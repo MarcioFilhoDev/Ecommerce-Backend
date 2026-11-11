@@ -11,6 +11,7 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { CreateProductController } from "./controllers/products/CreateProductController";
 import { ValidateSchema } from "./middlewares/validateSchema";
 import { ProductSchema } from "./schemas/productSchema";
+import { GetProductController } from "./controllers/products/GetProductController";
 
 //  new user
 router.post("/users", new CreateUserController().handle);
@@ -28,7 +29,7 @@ router.post("/companies/auth", new AuthCompanyController().handle);
 // router.get("/comments");
 
 // //  list product
-// router.get("/products");
+router.get("/products", new GetProductController().hanlde);
 
 // //  delete user account
 // //  authenticated + confirm password
