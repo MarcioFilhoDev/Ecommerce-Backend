@@ -12,9 +12,14 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ValidateSchema } from "./middlewares/validateSchema";
 import { ProductSchema } from "./schemas/productSchema";
 import { GetProductController } from "./controllers/products/GetProductController";
+import { CreateUserSchema } from "./schemas/userSchema";
 
 //  new user
-router.post("/users", new CreateUserController().handle);
+router.post(
+  "/users",
+  ValidateSchema(CreateUserSchema),
+  new CreateUserController().handle,
+);
 
 //  authenticate user
 router.post("/users/auth", new AuthUserController().handle);
