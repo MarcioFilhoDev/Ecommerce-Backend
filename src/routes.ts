@@ -13,6 +13,10 @@ import { ValidateSchema } from "./middlewares/validateSchema";
 import { ProductSchema } from "./schemas/productSchema";
 import { GetProductController } from "./controllers/products/GetProductController";
 import { AuthUserSchema, CreateUserSchema } from "./schemas/userSchema";
+import {
+  AuthCompanySchema,
+  CreateCompanySchema,
+} from "./schemas/companySchema";
 
 //  new user
 router.post(
@@ -29,10 +33,18 @@ router.post(
 );
 
 //  new company
-router.post("/companies", new CreateCompanyController().handle);
+router.post(
+  "/companies",
+  ValidateSchema(CreateCompanySchema),
+  new CreateCompanyController().handle,
+);
 
 //  authenticate company
-router.post("/companies/auth", new AuthCompanyController().handle);
+router.post(
+  "/companies/auth",
+  ValidateSchema(AuthCompanySchema),
+  new AuthCompanyController().handle,
+);
 
 // //  list comments
 // router.get("/comments");
