@@ -13,13 +13,10 @@ interface AuthUserProps {
 export class AuthUserService {
   async execute({ cpf, email, password }: AuthUserProps) {
     //  Verifying if user has recorded on database
-    if (!cpf || !email) {
-      return "E-mail ou CPF são obrigatórios";
-    }
-
     const findUser = await prismaClient.user.findFirst({
       where: {
-        OR: [{ cpf }, { email }],
+        cpf: cpf!,
+        email: email!,
       },
     });
 
