@@ -4,7 +4,6 @@ import { CreateProductService } from "../../services/products/CreateProductServi
 export class CreateProductController {
   async handle(req: Request, res: Response) {
     const {
-      company_id,
       code,
       title,
       description,
@@ -14,6 +13,8 @@ export class CreateProductController {
       current_price,
       image,
     } = req.body;
+
+    const company_id = req.user_id;
 
     const createProductService = new CreateProductService();
 

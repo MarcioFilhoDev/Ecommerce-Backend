@@ -3,9 +3,6 @@ import { Categories } from "../generated/prisma/enums";
 
 export const ProductSchema = z.object({
   body: z.object({
-    company_id: z
-      .string("ID of company is missing.")
-      .nonempty("ID from company is necessary."),
     code: z
       .string("Code of product is missing.")
       .nonempty("Code of product is necessary."),
