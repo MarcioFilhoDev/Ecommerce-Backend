@@ -25,7 +25,17 @@ export class CreateProductService {
     title,
     image,
   }: CreateProductProps) {
-    //  Verify if already exist user in database
+    const isCompany = await prismaClient.company.findUnique({
+      where: {
+        id: company_id,
+      },
+    });
+
+    if (!isCompany) {
+      throw new Error("Company not found.");
+    }
+
+    //  Verifying if already exits product registered
     const findProduct = await prismaClient.product.findFirst({
       where: {
         AND: [{ code }, { company_id }],
@@ -33,7 +43,7 @@ export class CreateProductService {
     });
 
     if (findProduct) {
-      return "This products already exists";
+      throw new Error("This products already exists");
     }
 
     try {

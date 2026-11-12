@@ -18,7 +18,7 @@ export class CreateProductController {
 
     const createProductService = new CreateProductService();
 
-    const newProduct = await createProductService.execute({
+    const product = await createProductService.execute({
       code,
       company_id,
       current_price,
@@ -30,6 +30,6 @@ export class CreateProductController {
       image,
     });
 
-    res.status(200).json({ message: "product created", newProduct });
+    res.status(200).json({ message: "product created", product });
   }
 }
