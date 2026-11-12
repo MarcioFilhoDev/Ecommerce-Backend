@@ -12,7 +12,7 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ValidateSchema } from "./middlewares/validateSchema";
 import { ProductSchema } from "./schemas/productSchema";
 import { GetProductController } from "./controllers/products/GetProductController";
-import { CreateUserSchema } from "./schemas/userSchema";
+import { AuthUserSchema, CreateUserSchema } from "./schemas/userSchema";
 
 //  new user
 router.post(
@@ -22,7 +22,11 @@ router.post(
 );
 
 //  authenticate user
-router.post("/users/auth", new AuthUserController().handle);
+router.post(
+  "/users/auth",
+  ValidateSchema(AuthUserSchema),
+  new AuthUserController().handle,
+);
 
 //  new company
 router.post("/companies", new CreateCompanyController().handle);
