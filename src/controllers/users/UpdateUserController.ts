@@ -20,6 +20,8 @@ export class UpdateUserController {
       });
 
       res.status(200).json(updatedUser);
+    } else {
+      res.status(400).json({ error: "user not authenticated" });
     }
   }
 }

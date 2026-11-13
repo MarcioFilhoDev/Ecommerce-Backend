@@ -20,3 +20,24 @@ export const AuthCompanySchema = z.object({
       error: "Provide e-mail or CPF, not both.",
     }),
 });
+
+export const UpdateCompanySchema = z.object({
+  body: z.object({
+    address: z
+      .string()
+      .min(5, "Address must be has more than 5 characters")
+      .optional(),
+    name: z
+      .string()
+      .min(3, "Name must be has more than 3 characters")
+      .optional(),
+    password: z
+      .string()
+      .min(6, "Passord must be has more than 5 characters")
+      .optional(),
+    postal_code: z
+      .string()
+      .min(3, "Postal code must be has more than 3 character")
+      .optional(),
+  }),
+});

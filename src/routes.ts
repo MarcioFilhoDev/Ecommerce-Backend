@@ -20,8 +20,10 @@ import {
 import {
   AuthCompanySchema,
   CreateCompanySchema,
+  UpdateCompanySchema,
 } from "./schemas/companySchema";
 import { UpdateUserController } from "./controllers/users/UpdateUserController";
+import { UpdateCompanyController } from "./controllers/companies/UpdateCompanyController";
 
 //  new user
 router.post(
@@ -56,6 +58,13 @@ router.post(
   "/companies/auth",
   ValidateSchema(AuthCompanySchema),
   new AuthCompanyController().handle,
+);
+
+router.put(
+  "/compaies/me",
+  isAuthenticated,
+  ValidateSchema(UpdateCompanySchema),
+  new UpdateCompanyController().handle,
 );
 
 // //  list comments
