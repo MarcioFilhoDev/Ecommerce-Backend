@@ -12,11 +12,16 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ValidateSchema } from "./middlewares/validateSchema";
 import { ProductSchema } from "./schemas/productSchema";
 import { GetProductController } from "./controllers/products/GetProductController";
-import { AuthUserSchema, CreateUserSchema } from "./schemas/userSchema";
+import {
+  AuthUserSchema,
+  CreateUserSchema,
+  UpdateUserSchema,
+} from "./schemas/userSchema";
 import {
   AuthCompanySchema,
   CreateCompanySchema,
 } from "./schemas/companySchema";
+import { UpdateUserController } from "./controllers/users/UpdateUserController";
 
 //  new user
 router.post(
@@ -30,6 +35,13 @@ router.post(
   "/users/auth",
   ValidateSchema(AuthUserSchema),
   new AuthUserController().handle,
+);
+
+router.put(
+  "/users/me",
+  isAuthenticated,
+  ValidateSchema(UpdateUserSchema),
+  new UpdateUserController().handle,
 );
 
 //  new company
