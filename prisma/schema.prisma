@@ -99,6 +99,7 @@ model Product {
   original_price Int // em centavos
   current_price  Int
   has_discount   Boolean    @default(false)
+  discount_value Int        @default(0)
   status         Boolean    @default(true)
 
   total_stars       Int @default(0)
